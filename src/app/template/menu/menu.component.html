@@ -1,0 +1,19 @@
+<nav class="menu">
+    <ul class="menu__list">
+      <li class="menu__item" (mouseover)="showSubMenu = true" (mouseout)="showSubMenu = false">
+        <a routerLink="parqueo/registrar">Registrar Vehiculos</a>
+        <ul *ngIf="showSubMenu" class="menu__sublist">
+         
+        </ul>
+      </li>
+
+      <li class="menu__item" (mouseover)="showSubMenu = true" (mouseout)="showSubMenu = false">
+        <a routerLink="parqueo/costo">Costo de parqueo</a>
+
+        
+      <li class="menu__item" (mouseover)="showSubMenu = true" (mouseout)="showSubMenu = false">
+      <a routerLink="parqueo/historial">Historial de parqueo</a>
+
+      
+    </ul>
+  </nav> 
