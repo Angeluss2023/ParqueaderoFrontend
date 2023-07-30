@@ -1,0 +1,34 @@
+<div class="cancelar-ticket-container">
+  <h2>Ticket de parqueo</h2>
+  <form>
+    <div class="form-row">
+      <label for="numeroTicket">Número de Ticket:</label>
+      <input type="text" id="numeroTicket" name="numeroTicket" [(ngModel)]="nuevoTicket.numeroTicket" disabled />
+    </div>
+
+    <div class="form-row">
+      <label for="entrada">Hora de entrada:</label>
+      <input type="text" id="entrada" name="entrada" [value]="nuevoTicket.horaEntrada | date:'HH:mm:ss'" disabled />
+    </div>
+
+    <div class="form-row">
+      <label for="placa">Placa:</label>
+      <input type="text" id="placa" name="placa" [(ngModel)]="nuevoTicket.placa" (change)="getTipoVehiculoByPlaca($event)" />
+    </div>
+
+    <div class="form-row">
+      <label for="tipoVehiculo">Tipo de Vehículo:</label>
+      <input type="text" id="tipoVehiculo" name="tipoVehiculo" [(ngModel)]="tipoVehiculoAutomatico" readonly />
+    </div>
+
+    <div class="form-row">
+      <label for="lugar">Lugar:</label>
+      <input type="text" id="lugar" name="lugar" [(ngModel)]="nuevoTicket.lugarAsignado" />
+    </div>
+
+    <button type="button" class="cancelar-btn" (click)="guardarTicket()">Crear Ticket</button>
+  </form>
+</div> 
+
+
+

@@ -1,39 +1,58 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
-
-header {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-}
-
-section {
-    background-color: #fff;
-    padding: 20px;
-    margin: 20px;
-    border-radius: 5px;
-}
-
-form {
+.historial-ticket-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    margin: 20px;
+  
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      text-transform: uppercase;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+  
+    .tabla-datos-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 600px;
+      margin: 0 auto;
+  
+      /* historial.component.scss */
+
+        .fecha-container {
+          display: flex;
+          align-items: center;
+        }
+
+        .boton-container {
+          margin-left: 20px; /* Ajusta el valor según el espacio deseado */
+        }
+
+  
+      .tabla-container {
+        width: 100%;
+      }
+    }
+
+    /* historial.component.scss */
+
+.buscar-button {
+  background-color: #007bff; /* Color de fondo */
+  color: #ffffff; /* Color de texto */
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+
+  /* Estilo al pasar el mouse */
+  &:hover {
+    background-color: #0056b3;
+  }
 }
 
-label, input, select, button {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-button {
-    cursor: pointer;
-    background-color: #333;
-    color: #fff;
-    border: none;
-}
+  }
+  

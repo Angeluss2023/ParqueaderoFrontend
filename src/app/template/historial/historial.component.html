@@ -1,11 +1,58 @@
-<body>
-    <header>
-        <h1>Historial del Parqueadero XYZ</h1>
-    </header>
+<div class="historial-ticket-container">
+  <h2>Historial de parqueo</h2>
 
-    <section id="historial">
-        <h2>Vehículos Registrados</h2>
-        <!-- Lista de vehículos que han usado el parqueadero -->
-        <!-- Aquí irían listados con su placa, fecha de entrada y salida, y costo -->
-    </section>
-</body>
+  <div class="tabla-datos-container">
+    <div class="fecha-container">
+      <mat-form-field>
+        <mat-label>Fecha:</mat-label>
+        <input matInput [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  
+    <div class="tabla-container">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let row"> {{ row.fecha }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="hora">
+          <th mat-header-cell *matHeaderCellDef> Hora </th>
+          <td mat-cell *matCellDef="let row"> {{ row.hora }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="placa">
+          <th mat-header-cell *matHeaderCellDef> Placa </th>
+          <td mat-cell *matCellDef="let row"> {{ row.placa }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="tipoVehiculo">
+          <th mat-header-cell *matHeaderCellDef> Tipo de Vehículo </th>
+          <td mat-cell *matCellDef="let row"> {{ row.tipoVehiculo }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="horaEntrada">
+          <th mat-header-cell *matHeaderCellDef> Hora de Entrada </th>
+          <td mat-cell *matCellDef="let row"> {{ row.horaEntrada }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="horaSalida">
+          <th mat-header-cell *matHeaderCellDef> Hora de Salida </th>
+          <td mat-cell *matCellDef="let row"> {{ row.horaSalida }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="lugar">
+          <th mat-header-cell *matHeaderCellDef> Lugar </th>
+          <td mat-cell *matCellDef="let row"> {{ row.lugar }} </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+</div>
+   
+

@@ -1,1 +1,45 @@
-<p>costo works!</p>
+  <div class="cancelar-ticket-container">
+    <h2>Cancelar Ticket</h2>
+  
+    <form>
+      <div>
+        <label for="numeroTicket">Número de Ticket:</label>
+        <input type="number" id="numeroTicket" name="numeroTicket" [(ngModel)]="numeroTicketABuscar" />
+        <!-- <button (click)="buscarVehiculoPorNumeroTicket()">Buscar</button> -->
+      </div>
+      
+  
+      <div class="form-row">
+        <label for="entrada">Hora de entrada:</label>
+        <input type="text" id="entrada" name="entrada" />
+      </div>
+  
+      <div class="form-row">
+        <label for="placa">Placa:</label>
+        <input type="text" id="placa" name="placa" />
+      </div>
+  
+      <div class="form-row">
+        <label for="salida">Hora de salida:</label>
+        <input type="text" id="salida" name="salida" />
+      </div>
+  
+      <div class="form-row">
+        <label for="tipoVehiculo">Tipo de Vehículo:</label>
+        <input type="text" id="tipoVehiculo" name="tipoVehiculo" />
+      </div>
+  
+      <div class="form-row">
+        <label for="costo">Costo:</label>
+        <input type="text" id="costo" name="costo" />
+      </div>
+  
+      <div class="form-row">
+        <label for="lugar">Lugar:</label>
+        <input type="text" id="lugar" name="lugar" />
+      </div>
+  
+      <button type="button" class="cancelar-btn">Cancelar</button>
+    </form>
+  </div>
+  
