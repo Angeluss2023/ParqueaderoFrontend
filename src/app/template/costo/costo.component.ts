@@ -3,6 +3,7 @@ import { TicketService } from 'src/app/services/ticket.service';
 import { Ticket } from 'src/app/domain/ticket';
 import { Vehiculo } from 'src/app/domain/vehiculo';
 import { VehiculoService } from 'src/app/services/vehiculo.service';
+import { Costo } from 'src/app/domain/costo';
 
 @Component({
   selector: 'app-costo',
@@ -11,10 +12,12 @@ import { VehiculoService } from 'src/app/services/vehiculo.service';
 })
 
 export class CostoComponent {
-  ticketACancelar: Ticket | undefined; // Inicializar como undefined
-  numeroTicketABuscar: number = 0; // Puedes inicializar con un valor predeterminado o dejarlo sin valor
-  vehiculoEncontrado: Vehiculo | null = null; // Inicializar como undefined
 
+  costo: Costo = new Costo();
+  ticketACancelar: Ticket | undefined; 
+  numeroTicketABuscar: number = 0;
+  vehiculoEncontrado: Vehiculo | null = null; 
+ tiempo = new Date();
   constructor(private vehiculoService: VehiculoService, private ticketService: TicketService) {}
 
   // buscarVehiculoPorNumeroTicket(): void {

@@ -56,8 +56,9 @@ export class VehiculoService {
   }
 
   obtenerVehiculoPorNumeroTicket(numeroTicket: number): Vehiculo | null {
-    const vehiculoEncontrado = this.listaDeTickets.find(t => t.numeroTicket === numeroTicket);
-    return vehiculoEncontrado ? this.obtenerVehiculoPorPlaca(vehiculoEncontrado.placa) : null;
+    const vehiculoEncontrado = this.listaDeTickets.find(t => t.idticket === numeroTicket);
+return vehiculoEncontrado ? this.obtenerVehiculoPorPlaca(vehiculoEncontrado.vehiculo.placa) : null;
+
   }
 
   //historial****************************************************************************

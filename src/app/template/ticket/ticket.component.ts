@@ -5,6 +5,7 @@ import { TicketService } from 'src/app/services/ticket.service';
 import {  OnInit } from '@angular/core';
 import { Vehiculo } from 'src/app/domain/vehiculo';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-ticket',
@@ -13,13 +14,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 
 export class TicketComponent implements OnInit{
-
-  nuevoTicket: Ticket = new Ticket(); // Creas una instancia de Ticket vacía para almacenar el nuevo ticket
+  
+  placa!: string;
+  vehiculo: Vehiculo = new Vehiculo();
+  nuevoTicket: Ticket = new Ticket();
+  fechaFormateada: string = ''; 
   listaDeVehiculos: Vehiculo[] = [];
   tipoVehiculoAutomatico = '';
   listaDeTickets: Ticket[] = [];
-
-  constructor(private vehiculoService: VehiculoService, private ticketService: TicketService, private router: Router) {
+  tiempo = new Date();
+  
+  constructor(private vehiculoService: VehiculoService, private ticketService: TicketService, private router: Router,private datePipe: DatePipe) {
     let params = this.router.getCurrentNavigation()?.extras.queryParams;
     if(params){
       console.log(params)
@@ -28,31 +33,55 @@ export class TicketComponent implements OnInit{
     }
   }
 
-  
-
   ngOnInit(): void {
-    // Aquí debes llamar a tu servicio para obtener la lista de tickets
-    // y asignarla a la propiedad listaDeTickets
     this.listaDeTickets = this.vehiculoService.obtenerListaDeTickets();
+
   }
 
-  generarNumeroTicket(): void {
-    // Obtenemos el número de ticket actual del último ticket registrado
-    const ultimoNumeroTicket = this.listaDeTickets.length > 0 ? this.listaDeTickets[this.listaDeTickets.length - 1].numeroTicket : 0;
-
-    // Incrementamos el número del último ticket para generar el siguiente número de ticket
-    this.nuevoTicket.numeroTicket = ultimoNumeroTicket + 1;
-  }
+  // guardarTicket(): void {
+  //    this.generarNumeroTicket();
+  //  console.log('Nuevo ticket generado:', this.nuevoTicket);
+  //     this.listaDeTickets.push(this.nuevoTicket);
+  //     this.nuevoTicket = new Ticket(); 
+  //    this.ticketService.save(this.nuevoTicket).subscribe(data => {
+  //    console.log("resultado WS save", data);
+  //  });
+  //  this.nuevoTicket = new Ticket()
+  // }
 
    guardarTicket(): void {
-     this.generarNumeroTicket();
-     console.log('Nuevo ticket generado:', this.nuevoTicket);
-     this.listaDeTickets.push(this.nuevoTicket);
-     this.nuevoTicket = new Ticket(); 
-     this.ticketService.save(this.nuevoTicket).subscribe(data => {
-      console.log("resultado WS save", data);
-    });
-    this.nuevoTicket = new Ticket()
+      this.generarNumeroTicket();
+
+       if (this.nuevoTicket.fecha) {
+       this.nuevoTicket.fecha = this.datePipe.transform(this.nuevoTicket.fecha, 'yyyy-MM-dd') || '';
+       } else {
+         this.nuevoTicket.fecha = '';
+    }
+    // Obtenemos la hora actual usando el objeto Date
+    const date = new Date();
+  
+    this.nuevoTicket.hora_entrada=date.toLocaleTimeString();
+    this.nuevoTicket.hora_salida=date.toLocaleTimeString();
+    console.log(this.nuevoTicket.hora_entrada)
+
+    this.listaDeTickets.push(this.nuevoTicket);
+    console.log('Nuevo ticket generado:', this.nuevoTicket);
+    this.ticketService.save(this.nuevoTicket).subscribe(
+         data => {
+           console.log("resultado WS save", data);
+         },
+         error => {
+         console.error("Error al guardar el ticket:", error);
+       }
+      );
+  
+     this.nuevoTicket = new Ticket();
+   }
+
+  generarNumeroTicket(): void {
+    const ultimoNumeroTicket = this.listaDeTickets.length > 0 ? this.listaDeTickets[this.listaDeTickets.length - 1].idticket : 0;
+
+    this.nuevoTicket.idticket = ultimoNumeroTicket + 3;
   }
 
   //vehiculos
@@ -63,19 +92,17 @@ export class TicketComponent implements OnInit{
   //   const vehiculoEncontrado = this.vehiculoService.obtenerVehiculoPorPlaca(placa);
   //   this.tipoVehiculoAutomatico = vehiculoEncontrado ? vehiculoEncontrado.tipo : '';
   // }
+
   getTipoVehiculoByPlaca(event: any): void {
     const placa = event.target.value;
     if (placa) {
       const vehiculoEncontrado = this.vehiculoService.obtenerVehiculoPorPlaca(placa);
-      this.tipoVehiculoAutomatico = vehiculoEncontrado ? vehiculoEncontrado.tipo : '';
+      this.tipoVehiculoAutomatico = vehiculoEncontrado ? vehiculoEncontrado.tipo_vehiculo : '';
     }
   }
-
   //cancelar
 
   seleccionarTicket(ticket: Ticket): void {
     this.ticketService.setTicketACancelar(ticket);
   }
-  
-  
 }

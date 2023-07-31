@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Ticket } from '../domain/ticket';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';  // Agrega 'throwError' aquí
+import { catchError } from 'rxjs/operators';  
 
 @Injectable({
   providedIn: 'root'
@@ -18,20 +20,21 @@ export class TicketService {
     this.contactosRef = db.collection(this.dbPath);
   }
 
-  save1(ticket: Ticket){
-    this.tickets.push(ticket)
-    console.log(this.tickets)
-    //contacto.uid = this.db.createId()
-    this.create(ticket)
-  }
+   /*/save1(ticket: Ticket){
+     this.tickets.push(ticket)
+     console.log(this.tickets)
+     //contacto.uid = this.db.createId()
+     this.create(ticket)
+   }/*/
 
   getList(){
     return this.tickets
   }
 
   create(ticket: Ticket): any {
-    //return this.contactosRef.doc(contacto.uid).set({ ...contacto });
+    return this.contactosRef.doc(ticket.idticket.toString()).set({ ...ticket });
   }
+  
   
   /*getAll() {
     return this.contactosRef.valueChanges();
@@ -51,9 +54,19 @@ export class TicketService {
 
   //postman
 
+  // save(ticket: Ticket) {
+  //   return this.http.post<any>("http://localhost:8080/Parqueadero/rs/ticket/ticket1", ticket)
+  // } 
+
   save(ticket: Ticket) {
-    return this.http.post<any>("http://localhost:8080/Parqueadero/rs/ticket/ticket1", ticket)
+    return this.http.post<any>("http://localhost:8080/Parqueadero/rs/ticket/ticket1", ticket).pipe(
+      catchError(error => {
+        console.error("Error al guardar el ticket:", error);
+        return throwError("Hubo un error al guardar el ticket. Por favor, inténtalo de nuevo más tarde.");
+      })
+    );
   }
+  
 
   getAll(){
     return this.http.get<any>("http://localhost:8080/Parqueadero/rs/ticket/allT")
@@ -74,10 +87,7 @@ export class TicketService {
         //return { numeroTicket, fecha: fechaActual, horaEntrada: new Date(), placa: 'ABC123', tipoVehiculo: 'Auto', lugarAsignado: 'A1' };
    // }
 
-
-
   formatoHora(hora: Date): string {
     return hora.toTimeString().slice(0, 8);
   }
-
 }

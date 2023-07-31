@@ -1,6 +1,5 @@
 export class Vehiculo {
     placa: string = '';
-    tipo: string = '';
+    tipo_vehiculo: string = '';
     color: string = '';  
-    //fecha: Date = new Date();
 }
