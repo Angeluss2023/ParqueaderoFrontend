@@ -73,6 +73,23 @@
           outline: none;
         }
       }
+
+      .input-with-button {
+        display: flex;
+        align-items: center;
+      }
+      
+      /* Estilos para el campo de entrada de la placa */
+      .input-with-button input {
+        flex: 1;
+        /* Resto de estilos para el campo de entrada ... */
+      }
+      
+      /* Estilos para el botón de búsqueda */
+      .input-with-button button.buscar-btn {
+        margin-left: 10px;
+        /* Resto de estilos para el botón ... */
+      }
       
       
     }

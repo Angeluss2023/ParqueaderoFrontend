@@ -3,7 +3,7 @@ export class Costo {
     hora_Entrada: string =''; 
     hora_Salida: Date = new Date();
     placa2: string = '';
-    tipoVehiculo1: string = '';
+    tipo_vehiculo: string = '';
     lugar: string = '';
     costo: string = ''; 
   }

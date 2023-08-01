@@ -23,6 +23,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import {MatSelectModule} from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { DatePipe } from '@angular/common';
     MatMomentDateModule,
     HttpClientModule,
     DatePipe,
+    MatSelectModule,
+    MatAutocompleteModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore())
   ],

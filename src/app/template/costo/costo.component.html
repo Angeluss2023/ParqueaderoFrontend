@@ -5,10 +5,10 @@
       <div>
         <label for="numeroTicket">Número de Ticket:</label>
         <input type="number" id="numeroTicket" name="numeroTicket" [(ngModel)]="numeroTicketABuscar" />
-        <!-- <button (click)="buscarVehiculoPorNumeroTicket()">Buscar</button> -->
+        <button (click)="buscarVehiculoPorNumeroTicket()">Buscar</button>
+        
       </div>
       
-  
       <div class="form-row">
         <label for="entrada">Hora de entrada:</label>
         <input type="text" id="entrada" name="entrada" [(ngModel)]="costo.hora_Entrada">
@@ -27,7 +27,7 @@
   
       <div class="form-row">
         <label for="tipoVehiculo">Tipo de Vehículo:</label>
-        <input type="text" id="tipoVehiculo" name="tipoVehiculo" [(ngModel)]="costo.tipoVehiculo1">
+        <input type="text" id="tipoVehiculo" name="tipoVehiculo" [(ngModel)]="costo.tipo_vehiculo">
         
       </div>
       

@@ -6,7 +6,7 @@ import {  OnInit } from '@angular/core';
 import { Vehiculo } from 'src/app/domain/vehiculo';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 @Component({
   selector: 'app-ticket',
   templateUrl: './ticket.component.html',
@@ -14,7 +14,7 @@ import { DatePipe } from '@angular/common';
 })
 
 export class TicketComponent implements OnInit{
-  
+
   placa!: string;
   vehiculo: Vehiculo = new Vehiculo();
   nuevoTicket: Ticket = new Ticket();
@@ -23,7 +23,9 @@ export class TicketComponent implements OnInit{
   tipoVehiculoAutomatico = '';
   listaDeTickets: Ticket[] = [];
   tiempo = new Date();
-  
+  vehiculoEncontrado: Vehiculo | null = null;
+  vehiculoNoEncontrado: boolean = false;
+
   constructor(private vehiculoService: VehiculoService, private ticketService: TicketService, private router: Router,private datePipe: DatePipe) {
     let params = this.router.getCurrentNavigation()?.extras.queryParams;
     if(params){
@@ -34,30 +36,27 @@ export class TicketComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.listaDeTickets = this.vehiculoService.obtenerListaDeTickets();
+    this.vehiculoService.getAll().subscribe((data: Vehiculo[]) => {
+      console.log(data);
+      this.listaDeVehiculos = data; 
+    }); 
+    this.vehiculoService.getAllT().subscribe((data:Ticket[]) =>{
+      this.listaDeTickets=data;
+      console.log("Tickest",this.listaDeTickets)
+      this.generarNumeroTicket()
+    })
 
   }
 
-  // guardarTicket(): void {
-  //    this.generarNumeroTicket();
-  //  console.log('Nuevo ticket generado:', this.nuevoTicket);
-  //     this.listaDeTickets.push(this.nuevoTicket);
-  //     this.nuevoTicket = new Ticket(); 
-  //    this.ticketService.save(this.nuevoTicket).subscribe(data => {
-  //    console.log("resultado WS save", data);
-  //  });
-  //  this.nuevoTicket = new Ticket()
-  // }
-
    guardarTicket(): void {
-      this.generarNumeroTicket();
-
+      console.log(this.vehiculo.placa)
+      this.nuevoTicket.vehiculo.placa=this.vehiculo.placa
+      this.nuevoTicket.vehiculo.tipo_vehiculo=this.vehiculo.tipo_vehiculo
        if (this.nuevoTicket.fecha) {
        this.nuevoTicket.fecha = this.datePipe.transform(this.nuevoTicket.fecha, 'yyyy-MM-dd') || '';
        } else {
          this.nuevoTicket.fecha = '';
     }
-    // Obtenemos la hora actual usando el objeto Date
     const date = new Date();
   
     this.nuevoTicket.hora_entrada=date.toLocaleTimeString();
@@ -69,29 +68,25 @@ export class TicketComponent implements OnInit{
     this.ticketService.save(this.nuevoTicket).subscribe(
          data => {
            console.log("resultado WS save", data);
+
+           setTimeout(() => {
+            window.location.reload();
+          }, 1000);
          },
          error => {
          console.error("Error al guardar el ticket:", error);
+   
        }
       );
   
      this.nuevoTicket = new Ticket();
+
    }
 
   generarNumeroTicket(): void {
-    const ultimoNumeroTicket = this.listaDeTickets.length > 0 ? this.listaDeTickets[this.listaDeTickets.length - 1].idticket : 0;
-
-    this.nuevoTicket.idticket = ultimoNumeroTicket + 3;
+    const ultimoNumeroTicket = this.listaDeTickets.length ;
+    this.nuevoTicket.idticket = ultimoNumeroTicket + 1;
   }
-
-  //vehiculos
-
-  // getTipoVehiculoByPlaca(event: Event): void {
-  //   const inputElement = event.target as HTMLInputElement;
-  //   const placa = inputElement.value;
-  //   const vehiculoEncontrado = this.vehiculoService.obtenerVehiculoPorPlaca(placa);
-  //   this.tipoVehiculoAutomatico = vehiculoEncontrado ? vehiculoEncontrado.tipo : '';
-  // }
 
   getTipoVehiculoByPlaca(event: any): void {
     const placa = event.target.value;
@@ -100,9 +95,26 @@ export class TicketComponent implements OnInit{
       this.tipoVehiculoAutomatico = vehiculoEncontrado ? vehiculoEncontrado.tipo_vehiculo : '';
     }
   }
-  //cancelar
-
-  seleccionarTicket(ticket: Ticket): void {
-    this.ticketService.setTicketACancelar(ticket);
+  
+  buscarTipoVehiculo() {
+    const placaIngresada = this.nuevoTicket.vehiculo.placa.trim().toUpperCase(); // Normalizar la placa ingresada
+    const vehiculoEncontrado = this.listaDeVehiculos.find(vehiculo => vehiculo.placa.trim().toUpperCase() === placaIngresada);
+  
+    if (vehiculoEncontrado) {
+      this.nuevoTicket.vehiculo.tipo_vehiculo = vehiculoEncontrado.tipo_vehiculo; // Corregir el nombre de la propiedad aquí
+    } else {
+      // Si no se encontró un vehículo con la placa ingresada, puedes mostrar un mensaje de error o dejar el campo en blanco
+      this.nuevoTicket.vehiculo.tipo_vehiculo = ''; // Corregir el nombre de la propiedad aquí
+      console.log('Vehículo no encontrado');
+    }
+  }
+  
+  onOptionSelected(event: MatAutocompleteSelectedEvent) {
+    const selectedVehicle = this.listaDeVehiculos.find(vehicle => vehicle.placa === event.option.value);
+    if (selectedVehicle) {
+      this.vehiculo.placa = selectedVehicle.placa;
+      this.vehiculo.tipo_vehiculo = selectedVehicle.tipo_vehiculo;
+      this.vehiculo.color = selectedVehicle.color;
+    }
   }
 }

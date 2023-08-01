@@ -28,6 +28,10 @@ export class VehiculoService {
   getAll(){
     return this.http.get<any>("http://localhost:8080/Parqueadero/rs/ticket/allV")
   }
+
+  getAllT(){
+    return this.http.get<any>("http://localhost:8080/Parqueadero/rs/ticket/allT")
+  }
   
   delete(placa: string) {
     console.log(placa)
@@ -52,14 +56,14 @@ export class VehiculoService {
 
   obtenerVehiculoPorPlaca(placa: string): Vehiculo | null {
     const vehiculoEncontrado = this.listaDeVehiculos.find((v: Vehiculo) => v.placa === placa);
+    console.log(vehiculoEncontrado); // Mueve esta línea antes del return
     return vehiculoEncontrado ? vehiculoEncontrado : null;
   }
-
-  obtenerVehiculoPorNumeroTicket(numeroTicket: number): Vehiculo | null {
-    const vehiculoEncontrado = this.listaDeTickets.find(t => t.idticket === numeroTicket);
-return vehiculoEncontrado ? this.obtenerVehiculoPorPlaca(vehiculoEncontrado.vehiculo.placa) : null;
-
+  
+  obtenerListaDeVehiculos(): Vehiculo[] {
+    return this.listaDeVehiculos;
   }
+  
 
   //historial****************************************************************************
 

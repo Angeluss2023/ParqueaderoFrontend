@@ -29,6 +29,8 @@ export class PrincipalComponent {
     // antes firebase --> this.contactoService.save(this.contacto)
     this.vehiculoService.save(this.vehiculo).subscribe(data => {
       console.log("resultado WS save", data);
+     // alert ("Vehiculo guardado correctamente")
+
     });
     this.vehiculo = new Vehiculo()
   }

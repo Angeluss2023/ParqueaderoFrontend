@@ -1,28 +1,22 @@
-//  export class Ticket {
-//    numeroTicket: number = 0;
-//    horaEntrada: Date = new Date(); 
-//    fecha: string = '';
-//    placa1: string = '';
-//    tipoVehiculo: string = '';
-//    lugarAsignado: string = '';
-//  }
-
+import { Vehiculo } from "./vehiculo";
 export class Ticket {
-  idticket: number = 0; // Cambia a camelCase
+  idticket: number = 1; 
   //horaEntrada: Date = new Date(); 
   hora_entrada:string =''; 
-  hora_salida: string = ''; // Cambia a camelCase y actualiza el tipo a string
-  puestoAsignado: number = 0; // Cambia a camelCase
+  hora_salida: string = ''; 
+  puestoAsignado: number = 0;
   fecha: string = '';
+
+  //vehiculo?: Vehiculo;
   vehiculo: {
     color: string;
-    idVehiculo: number; // Cambia a camelCase
+    idVehiculo: number;
     placa: string;
-    tipoVehiculo: string; // Cambia a camelCase
+    tipo_vehiculo: string; 
   } = {
     color: '',
-    idVehiculo: 0, // Cambia a camelCase
+    idVehiculo: 0, 
     placa: '',
-    tipoVehiculo: '',
+    tipo_vehiculo: '',
   };
 }
