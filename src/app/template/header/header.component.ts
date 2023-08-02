@@ -11,10 +11,14 @@ export class HeaderComponent {
   constructor(private router: Router){
   }
 
-  puestosTotales: number = 10;  // total de puestos
-puestosOcupados: number = 0;  // cuantos puestos están ocupados actualmente
+  MAX_PUESTOS: number = 10; 
+  puestosTotales: number = this.MAX_PUESTOS; // Inicialmente, todos los puestos están disponibles.
 
-get puestosDisponibles(): number {
-    return this.puestosTotales - this.puestosOcupados;
-}
+  // ... el resto del código de tu componente
+
+
+  get puestosDisponibles(): number {
+  return this.MAX_PUESTOS - this.puestosTotales;
+  }
+
 }

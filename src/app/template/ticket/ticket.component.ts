@@ -232,6 +232,14 @@ export class TicketComponent implements OnInit{
   tiempo = new Date();
   vehiculoEncontrado: Vehiculo | null = null;
   vehiculoNoEncontrado: boolean = false;
+  puestosTotales: number = 10;  // total de puestos
+  puestosOcupados: number = 0;
+
+  // En HeaderComponent y TicketComponent
+MAX_PUESTOS: number = 10; // Aquí define el valor adecuado
+
+// ... resto del código de la clase
+
 
   constructor(private vehiculoService: VehiculoService, private ticketService: TicketService, private router: Router,private datePipe: DatePipe) {
     let params = this.router.getCurrentNavigation()?.extras.queryParams;
@@ -254,6 +262,50 @@ export class TicketComponent implements OnInit{
     })
   }
   
+  // guardarTicket(): void {
+  //   console.log(this.vehiculo.placa);
+  //   this.nuevoTicket.vehiculo.placa = this.vehiculo.placa;
+  //   this.nuevoTicket.vehiculo.tipo_vehiculo = this.vehiculo.tipo_vehiculo;
+  
+  //   if (this.nuevoTicket.fecha) {
+  //     this.nuevoTicket.fecha = this.datePipe.transform(this.nuevoTicket.fecha, 'yyyy-MM-dd') || '';
+  //   } else {
+  //     this.nuevoTicket.fecha = '';
+  //   }
+  
+  //   const date = new Date();
+  //   const formattedTime = format(date, 'HH:mm:ss');
+    
+  //   this.nuevoTicket.hora_entrada = formattedTime;
+  //   this.nuevoTicket.hora_salida = formattedTime;
+ 
+  //   this.ticketService.save(this.nuevoTicket).subscribe(
+  //     data => {
+  //       console.log("resultado WS save", data);
+  
+  //       // Añade el nuevo ticket a la lista.
+  //       this.listaDeTickets.push(this.nuevoTicket);
+  
+  //       // Incrementar el número de ticket para la siguiente entrada
+  //       this.nuevoTicket.id_ticket = this.listaDeTickets.length + 1;
+  
+  //       // Incrementar puestoAsignado para el siguiente ticket, solo si es menor que 10
+  //       if (this.nuevoTicket.puestoAsignado < 10) {
+  //         this.nuevoTicket.puestoAsignado++;
+  //       } else {
+  //         console.warn("Todos los puestos están ocupados.");
+  //       }
+  //     },
+  //     error => {
+  //       console.error("Error al guardar el ticket:", error);
+  //     }
+  //   );
+  
+  //   // Reinicializar nuevoTicket para la próxima entrada.
+  //   this.nuevoTicket = new Ticket();
+  //   this.nuevoTicket.puestoAsignado = this.listaDeTickets.length % 10 + 1;
+  // }
+
   guardarTicket(): void {
     console.log(this.vehiculo.placa);
     this.nuevoTicket.vehiculo.placa = this.vehiculo.placa;
@@ -264,7 +316,15 @@ export class TicketComponent implements OnInit{
     } else {
       this.nuevoTicket.fecha = '';
     }
-  
+
+
+    if (this.puestosTotales > 0) {
+      this.puestosTotales--;
+      // Luego continúa con la lógica de guardar el ticket...
+    } else {
+      alert('No hay puestos disponibles.');
+    }
+
     const date = new Date();
     const formattedTime = format(date, 'HH:mm:ss');
     

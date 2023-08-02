@@ -13,8 +13,8 @@ import { TicketService } from 'src/app/services/ticket.service';
 })
 
 export class HistorialComponent implements OnInit{
-  fechaSeleccionada: Date | null = null;
-  //fechaSeleccionada: Date | undefined; 
+  //fechaSeleccionada: Date | null = null;
+  fechaSeleccionada: Date | undefined; 
   vehiculosPorFecha: Vehiculo[] = [];
   displayedColumns: string[] = ['placa', 'tipoVehiculo', 'fecha', 'horaEntrada', 'horaSalida', 'lugar'];
   dataSource: MatTableDataSource<Vehiculo>;
@@ -30,25 +30,59 @@ export class HistorialComponent implements OnInit{
     this.actualizarHistorial();
   }
 
+  // actualizarHistorial(): void {
+  //   this.ticketService.getAll().subscribe((tickets: Ticket[]) => {
+  //     this.vehiculoService.getAll().subscribe((vehiculos: Vehiculo[]) => {
+  //       // Combina los vehículos y tickets para tener toda la información en un solo lugar
+  //       this.vehiculosPorFecha = this.combineVehiculosYTickets(vehiculos, tickets);
+
+  //       // Filtra los vehículos por la fecha seleccionada
+  //       if (this.fechaSeleccionada) {
+  //         this.vehiculosPorFecha = this.vehiculosPorFecha.filter(vehiculo =>
+  //           vehiculo.ticket && vehiculo.ticket.fecha === this.formatDate(this.fechaSeleccionada)
+  //         );
+  //       }
+
+  //       // Actualiza el dataSource para la tabla con los vehículos filtrados
+  //       this.dataSource.data = this.vehiculosPorFecha;
+  //     });
+  //   });
+  // }
+
+  onFechaSeleccionada(event: any): void {
+    this.fechaSeleccionada = event.value; // O el valor adecuado de la fecha seleccionada
+    this.actualizarHistorial();
+  }
+  
+  
   actualizarHistorial(): void {
-    this.ticketService.getAll().subscribe((tickets: Ticket[]) => {
+    let fechaFiltrado: Date | undefined = undefined;
+  
+    if (this.fechaSeleccionada !== undefined) {
+      fechaFiltrado = this.fechaSeleccionada;
+    }
+  
+    this.ticketService.getAll(fechaFiltrado).subscribe((tickets: Ticket[]) => {
       this.vehiculoService.getAll().subscribe((vehiculos: Vehiculo[]) => {
         // Combina los vehículos y tickets para tener toda la información en un solo lugar
-        this.vehiculosPorFecha = this.combineVehiculosYTickets(vehiculos, tickets);
-
+        const vehiculosPorFecha = this.combineVehiculosYTickets(vehiculos, tickets);
+  
         // Filtra los vehículos por la fecha seleccionada
-        if (this.fechaSeleccionada) {
-          this.vehiculosPorFecha = this.vehiculosPorFecha.filter(vehiculo =>
-            vehiculo.ticket && vehiculo.ticket.fecha === this.formatDate(this.fechaSeleccionada)
+        if (this.fechaSeleccionada !== undefined) {
+          this.vehiculosPorFecha = vehiculosPorFecha.filter(vehiculo =>
+            vehiculo.ticket && vehiculo.ticket.fecha === this.formatDate(this.fechaSeleccionada!)
           );
+        } else {
+          this.vehiculosPorFecha = vehiculosPorFecha;
         }
-
+  
         // Actualiza el dataSource para la tabla con los vehículos filtrados
         this.dataSource.data = this.vehiculosPorFecha;
       });
     });
   }
-
+  
+  
   combineVehiculosYTickets(vehiculos: Vehiculo[], tickets: Ticket[]): Vehiculo[] {
     // Combina los vehículos y tickets usando la propiedad 'placa' como clave para relacionarlos
     return vehiculos.map(vehiculo => ({
@@ -65,9 +99,7 @@ export class HistorialComponent implements OnInit{
     return '';
   }
 
-  onFechaSeleccionada(event: any): void {
-    this.actualizarHistorial();
-  }
+
 
   onFechaKeyPress(event: KeyboardEvent): void {
     if (event.key === 'Enter') {

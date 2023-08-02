@@ -112,6 +112,11 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 export class CostoComponent implements OnInit{
 
+  MAX_PUESTOS: number = 10; 
+  puestosTotales: number = this.MAX_PUESTOS;
+
+  //puestosTotales: number = 10;  // total de puestos
+  //puestosOcupados: number = 0;
   costo: Costo = new Costo();
   ticketACancelar: Ticket | undefined; 
   numeroTicketABuscar: number = 0;
@@ -139,6 +144,15 @@ export class CostoComponent implements OnInit{
 
   // }
 
+  /////////////////////////////////
+
+  //costo:
+
+  displayFn(ticket: Ticket): string {
+         return ticket ? ticket.id_ticket.toString() : '';
+  }
+
+
   ngOnInit(): void {
       this.ticketService.getAll().subscribe((data: Ticket[]) => {
          console.log(data);
@@ -165,13 +179,55 @@ export class CostoComponent implements OnInit{
     );
   }
 
+  // onOptionSelected(event: MatAutocompleteSelectedEvent) {
+  //   const selectedTicket = this.listaDeTickets.find(vehicle => vehicle.id_ticket === event.option.value);
+  //   if (selectedTicket) {
+  //     this.costo.tipo_vehiculo = selectedTicket.vehiculo.tipo_vehiculo; // Accedemos a tipo_vehiculo dentro de vehiculo
+  //     this.costo.hora_Entrada = selectedTicket.hora_entrada;
+  //     this.costo.placa = selectedTicket.vehiculo.placa; 
+  //     this.costo.puestoAsignado = String(selectedTicket.puestoAsignado);
+
+      
+  //   }
+  // }  
+
   onOptionSelected(event: MatAutocompleteSelectedEvent) {
     const selectedTicket = this.listaDeTickets.find(vehicle => vehicle.id_ticket === event.option.value);
     if (selectedTicket) {
-      this.costo.tipo_vehiculo = selectedTicket.vehiculo.tipo_vehiculo; // Accedemos a tipo_vehiculo dentro de vehiculo
-      this.costo.hora_Entrada = selectedTicket.hora_entrada;
-      this.costo.placa = selectedTicket.vehiculo.placa; 
-      this.costo.puestoAsignado = String(selectedTicket.puestoAsignado);
+        this.costo.tipo_vehiculo = selectedTicket.vehiculo.tipo_vehiculo; 
+        this.costo.hora_Entrada = selectedTicket.hora_entrada;
+        this.costo.placa = selectedTicket.vehiculo.placa; 
+        this.costo.puestoAsignado = String(selectedTicket.puestoAsignado);
+
+        // Calculo del costo basado en las horas
+        const tarifaPorHora = 1.50;
+
+        // La fecha actual y hora de salida se obtienen en tiempo real
+        const horaActual = new Date();
+        const horaSalida = horaActual.getHours() + ":" + horaActual.getMinutes();
+
+        const partesHoraEntrada = this.costo.hora_Entrada.split(':');
+        const partesHoraSalida = horaSalida.split(':');
+
+        const entradaEnMinutos = parseInt(partesHoraEntrada[0]) * 60 + parseInt(partesHoraEntrada[1]);
+        const salidaEnMinutos = parseInt(partesHoraSalida[0]) * 60 + parseInt(partesHoraSalida[1]);
+
+        const diferenciaEnMinutos = salidaEnMinutos - entradaEnMinutos;
+        const horasACobrar = Math.ceil(diferenciaEnMinutos / 60);
+
+        const costoCalculado = horasACobrar * tarifaPorHora;
+        this.costo.costo = costoCalculado.toFixed(2).toString();  // Convierte a cadena con dos decimales
+        //this.costo.costo = parseFloat(costoCalculado.toFixed(2));  // Redondea al segundo decimal
     }
-  }  
+}
+
+cancelarTicket() {
+  if (this.puestosTotales < this.MAX_PUESTOS) {
+    this.puestosTotales++;
+    // Luego continúa con la lógica de cancelar el ticket...
+  } else {
+    // Es raro llegar a este punto, pero es bueno tener controles
+    console.error('Error: se ha superado el número máximo de puestos.');
+  }
+}
 }

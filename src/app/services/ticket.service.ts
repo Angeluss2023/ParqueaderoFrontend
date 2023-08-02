@@ -76,11 +76,12 @@ export class TicketService {
   getAll(fecha?: Date): Observable<Ticket[]> {
     if (fecha) {
       const fechaStr = this.formatDate(fecha);
-      return this.http.get<Ticket[]>(`http://localhost:8080/Parqueadero/rs/ticket/fecha`);
+      return this.http.get<Ticket[]>(`http://localhost:8080/Parqueadero/rs/ticket/fecha/${fechaStr}`);
     } else {
       return this.http.get<Ticket[]>("http://localhost:8080/Parqueadero/rs/ticket/allT");
     }
   }
+  
   
   private formatDate(date: Date): string {
     return date.toISOString().slice(0, 10);
