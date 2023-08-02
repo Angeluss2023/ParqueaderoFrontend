@@ -2,21 +2,29 @@
     <h2>Cancelar Ticket</h2>
   
     <form>
-      <div>
+      <!-- <div>
         <label for="numeroTicket">Número de Ticket:</label>
         <input type="number" id="numeroTicket" name="numeroTicket" [(ngModel)]="numeroTicketABuscar" />
         <button (click)="buscarVehiculoPorNumeroTicket()">Buscar</button>
         
+      </div> -->
+
+      <div class="form-row">
+        <label for="numeroTicket">Número de Ticket:</label>
+        <input type="text" id="numeroTicket"  [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+                  <mat-option *ngFor="let option of listaDeTickets" [value]="option.id_ticket">{{option.id_ticket}}</mat-option>
+                </mat-autocomplete>
       </div>
       
       <div class="form-row">
         <label for="entrada">Hora de entrada:</label>
-        <input type="text" id="entrada" name="entrada" [(ngModel)]="costo.hora_Entrada">
+        <input type="text" id="entrada" name="entrada" [(ngModel)]="costo.hora_Entrada" disabled>
       </div>
   
       <div class="form-row">
         <label for="placa">Placa:</label>
-        <input type="text" id="placa" name="placa" [(ngModel)]="costo.placa2">
+        <input type="text" id="placa" name="placa" [(ngModel)]="costo.placa" disabled>
       </div>
   
       <div class="form-row">
@@ -27,22 +35,20 @@
   
       <div class="form-row">
         <label for="tipoVehiculo">Tipo de Vehículo:</label>
-        <input type="text" id="tipoVehiculo" name="tipoVehiculo" [(ngModel)]="costo.tipo_vehiculo">
+       <input type="text" id="tipoVehiculo" name="tipoVehiculo" [(ngModel)]="costo.tipo_vehiculo" disabled> 
         
       </div>
-      
   
       <div class="form-row">
         <label for="costo">Costo:</label>
-        <input type="text" id="costo" name="costo" [(ngModel)]="costo.costo">
+        <input type="text" id="costo" name="costo" [(ngModel)]="costo.costo" disabled>
       </div>
   
       <div class="form-row">
         <label for="lugar">Lugar:</label>
-        <input type="text" id="lugar" name="lugar" [(ngModel)]="costo.lugar">
+        <input type="text" id="lugar" name="lugar" [(ngModel)]="costo.puestoAsignado" disabled>
       </div>
   
       <button type="button" class="cancelar-btn">Cancelar</button>
     </form>
   </div>
-  

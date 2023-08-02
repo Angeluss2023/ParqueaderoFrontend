@@ -32,7 +32,7 @@ export class TicketService {
   }
 
   create(ticket: Ticket): any {
-    return this.contactosRef.doc(ticket.idticket.toString()).set({ ...ticket });
+    return this.contactosRef.doc(ticket.id_ticket.toString()).set({ ...ticket });
   }
   
   
@@ -59,6 +59,7 @@ export class TicketService {
   // } 
 
   save(ticket: Ticket) {
+    console.log(ticket)
     return this.http.post<any>("http://localhost:8080/Parqueadero/rs/ticket/ticket1", ticket).pipe(
       catchError(error => {
         console.error("Error al guardar el ticket:", error);
@@ -68,9 +69,23 @@ export class TicketService {
   }
   
 
-  getAll(){
-    return this.http.get<any>("http://localhost:8080/Parqueadero/rs/ticket/allT")
+  // getAll(){
+  //   return this.http.get<any>("http://localhost:8080/Parqueadero/rs/ticket/allT")
+  // }
+  
+  getAll(fecha?: Date): Observable<Ticket[]> {
+    if (fecha) {
+      const fechaStr = this.formatDate(fecha);
+      return this.http.get<Ticket[]>(`http://localhost:8080/Parqueadero/rs/ticket/fecha`);
+    } else {
+      return this.http.get<Ticket[]>("http://localhost:8080/Parqueadero/rs/ticket/allT");
+    }
   }
+  
+  private formatDate(date: Date): string {
+    return date.toISOString().slice(0, 10);
+  }
+
   
   //ver ticket a cancelar 
     ticketACancelar: Ticket = new Ticket();

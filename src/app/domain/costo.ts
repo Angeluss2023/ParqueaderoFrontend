@@ -1,9 +1,10 @@
+import { Vehiculo } from "./vehiculo";
 export class Costo {
-    numero_Ticket: number = 0;
+  id_ticket: number = 1;
     hora_Entrada: string =''; 
     hora_Salida: Date = new Date();
-    placa2: string = '';
+    placa: string = '';
     tipo_vehiculo: string = '';
-    lugar: string = '';
+    puestoAsignado: string = '';
     costo: string = ''; 
-  }
+}

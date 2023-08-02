@@ -54,17 +54,10 @@ export class VehiculoService {
     return this.listaDeTickets;
   }
 
-  obtenerVehiculoPorPlaca(placa: string): Vehiculo | null {
-    const vehiculoEncontrado = this.listaDeVehiculos.find((v: Vehiculo) => v.placa === placa);
-    console.log(vehiculoEncontrado); // Mueve esta línea antes del return
-    return vehiculoEncontrado ? vehiculoEncontrado : null;
-  }
-  
   obtenerListaDeVehiculos(): Vehiculo[] {
     return this.listaDeVehiculos;
   }
   
-
   //historial****************************************************************************
-
+  
 }

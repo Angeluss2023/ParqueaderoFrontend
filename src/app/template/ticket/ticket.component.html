@@ -3,7 +3,7 @@
   <form>
     <div class="form-row">
       <label for="numeroTicket">Número de Ticket:</label>
-      <input type="text" id="numeroTicket" name="numeroTicket" [(ngModel)]="nuevoTicket.idticket" disabled />
+      <input type="text" id="numeroTicket" name="numeroTicket" [(ngModel)]="nuevoTicket.id_ticket" disabled />
     </div>
 
     <div class="form-row">
@@ -40,12 +40,12 @@
 
  <div class="form-row">
       <label for="tipoVehiculo">Tipo de Vehículo:</label>
-      <input type="text" id="tipoVehiculo" name="tipoVehiculo" [(ngModel)]="vehiculo.tipo_vehiculo" />
+      <input type="text" id="tipoVehiculo" name="tipoVehiculo" [(ngModel)]="vehiculo.tipo_vehiculo " disabled />
     </div> 
 
     <div class="form-row">
       <label for="lugar">Lugar:</label>
-      <input type="text" id="lugar" name="lugar" [(ngModel)]="nuevoTicket.puestoAsignado" />
+      <input type="text" id="lugar" name="lugar" [(ngModel)]="nuevoTicket.puestoAsignado" disabled/>
     </div>
 
 
