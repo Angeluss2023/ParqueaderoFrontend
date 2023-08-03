@@ -308,6 +308,7 @@ MAX_PUESTOS: number = 10; // Aquí define el valor adecuado
 
   guardarTicket(): void {
     console.log(this.vehiculo.placa);
+    
     this.nuevoTicket.vehiculo.placa = this.vehiculo.placa;
     this.nuevoTicket.vehiculo.tipo_vehiculo = this.vehiculo.tipo_vehiculo;
   
@@ -356,6 +357,7 @@ MAX_PUESTOS: number = 10; // Aquí define el valor adecuado
     // Reinicializar nuevoTicket para la próxima entrada.
     this.nuevoTicket = new Ticket();
     this.nuevoTicket.puestoAsignado = this.listaDeTickets.length % 10 + 1;
+    //alert("Ticket creado")
   }
 
   generarNumeroTicket(): void {

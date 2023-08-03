@@ -13,6 +13,7 @@ export class TicketService {
 
   private dbPath = '/contactos'; 
   tickets: Ticket[] = []
+  //private baseUrl = 'http://localhost:8080/Parqueadero/rs/ticket';
 
   contactosRef: AngularFirestoreCollection<Ticket>;
 
@@ -106,4 +107,15 @@ export class TicketService {
   formatoHora(hora: Date): string {
     return hora.toTimeString().slice(0, 8);
   }
+
+  // cancelarTicket(numeroTicket: number): Observable<any> {
+  //   const url = `${this.baseUrl}/cancelar/${numeroTicket}`;
+  //   return this.http.put(url, {}).pipe(
+  //     catchError((error: any) => {
+  //       console.error('Error al cancelar el ticket:', error);
+  //       return throwError('Hubo un error al cancelar el ticket. Por favor, inténtalo de nuevo más tarde.');
+  //     })
+  //   );
+  // }
+
 }

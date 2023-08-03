@@ -19,10 +19,6 @@ export class HistorialComponent implements OnInit{
   displayedColumns: string[] = ['placa', 'tipoVehiculo', 'fecha', 'horaEntrada', 'horaSalida', 'lugar'];
   dataSource: MatTableDataSource<Vehiculo>;
 
-  // constructor(private vehiculoService: VehiculoService) {
-  //   this.dataSource = new MatTableDataSource<Vehiculo>([]);
-  // }
-
   constructor(private vehiculoService: VehiculoService, private ticketService: TicketService) {
     this.dataSource = new MatTableDataSource<Vehiculo>([]);
   }
@@ -53,8 +49,7 @@ export class HistorialComponent implements OnInit{
     this.fechaSeleccionada = event.value; // O el valor adecuado de la fecha seleccionada
     this.actualizarHistorial();
   }
-  
-  
+
   actualizarHistorial(): void {
     let fechaFiltrado: Date | undefined = undefined;
   
@@ -82,7 +77,6 @@ export class HistorialComponent implements OnInit{
     });
   }
   
-  
   combineVehiculosYTickets(vehiculos: Vehiculo[], tickets: Ticket[]): Vehiculo[] {
     // Combina los vehículos y tickets usando la propiedad 'placa' como clave para relacionarlos
     return vehiculos.map(vehiculo => ({
@@ -99,13 +93,9 @@ export class HistorialComponent implements OnInit{
     return '';
   }
 
-
-
   onFechaKeyPress(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       this.actualizarHistorial();
     }
   }
 }
-
-
