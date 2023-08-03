@@ -48,8 +48,6 @@ export class VehiculoService {
     return this.http.put<any>("http://localhost:8080/Parqueadero/rs/ticket/actualizar",ticket);
   }
 
-  // listarVehiculos**********************************************************************************
-
   obtenerListaDeTickets(): Ticket[] {
     return this.listaDeTickets;
   }
@@ -57,7 +55,4 @@ export class VehiculoService {
   obtenerListaDeVehiculos(): Vehiculo[] {
     return this.listaDeVehiculos;
   }
-  
-  //historial****************************************************************************
-  
 }

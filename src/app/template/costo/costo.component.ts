@@ -18,8 +18,6 @@ export class CostoComponent implements OnInit{
   MAX_PUESTOS: number = 10; 
   puestosTotales: number = this.MAX_PUESTOS;
 
-  //puestosTotales: number = 10;  // total de puestos
-  //puestosOcupados: number = 0;
   costo: Costo = new Costo();
   ticketACancelar: Ticket | undefined; 
   numeroTicketABuscar: number = 0;
@@ -29,10 +27,6 @@ export class CostoComponent implements OnInit{
   listaDeVehiculos: Vehiculo[] = [];
   listaDeTickets: Ticket[] = [];
   constructor(private vehiculoService: VehiculoService, private ticketService: TicketService, private http: HttpClient)  {}
-
-  /////////////////////////////////
-
-  //costo:
 
   displayFn(ticket: Ticket): string {
          return ticket ? ticket.id_ticket.toString() : '';

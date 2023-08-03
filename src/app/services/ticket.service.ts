@@ -13,20 +13,12 @@ export class TicketService {
 
   private dbPath = '/contactos'; 
   tickets: Ticket[] = []
-  //private baseUrl = 'http://localhost:8080/Parqueadero/rs/ticket';
 
   contactosRef: AngularFirestoreCollection<Ticket>;
 
   constructor(private db: AngularFirestore, private http: HttpClient) {
     this.contactosRef = db.collection(this.dbPath);
   }
-
-   /*/save1(ticket: Ticket){
-     this.tickets.push(ticket)
-     console.log(this.tickets)
-     //contacto.uid = this.db.createId()
-     this.create(ticket)
-   }/*/
 
   getList(){
     return this.tickets
@@ -35,29 +27,7 @@ export class TicketService {
   create(ticket: Ticket): any {
     return this.contactosRef.doc(ticket.id_ticket.toString()).set({ ...ticket });
   }
-  
-  
-  /*getAll() {
-    return this.contactosRef.valueChanges();
-  }
 
-  create(ticket: Ticket): any {
-    //return this.contactosRef.doc(contacto.uid).set({ ...contacto });
-  }
-
-  update(id: string, data: any): Promise<void> {
-    return this.contactosRef.doc(id).update(data);
-  }
-
-  delete(id: string): Promise<void> {
-    return this.contactosRef.doc(id).delete();
-  }*/
-
-  //postman
-
-  // save(ticket: Ticket) {
-  //   return this.http.post<any>("http://localhost:8080/Parqueadero/rs/ticket/ticket1", ticket)
-  // } 
 
   save(ticket: Ticket) {
     console.log(ticket)
@@ -68,11 +38,6 @@ export class TicketService {
       })
     );
   }
-  
-
-  // getAll(){
-  //   return this.http.get<any>("http://localhost:8080/Parqueadero/rs/ticket/allT")
-  // }
   
   getAll(fecha?: Date): Observable<Ticket[]> {
     if (fecha) {
@@ -88,8 +53,6 @@ export class TicketService {
     return date.toISOString().slice(0, 10);
   }
 
-  
-  //ver ticket a cancelar 
     ticketACancelar: Ticket = new Ticket();
   
     setTicketACancelar(ticket: Ticket): void {
@@ -99,23 +62,8 @@ export class TicketService {
     getTicketACancelar(): Ticket {
       return this.ticketACancelar;
     }
-  
-    // obtenerTicketPorNumero(numeroTicket: number): Ticket | undefined {
-        //return { numeroTicket, fecha: fechaActual, horaEntrada: new Date(), placa: 'ABC123', tipoVehiculo: 'Auto', lugarAsignado: 'A1' };
-   // }
 
   formatoHora(hora: Date): string {
     return hora.toTimeString().slice(0, 8);
   }
-
-  // cancelarTicket(numeroTicket: number): Observable<any> {
-  //   const url = `${this.baseUrl}/cancelar/${numeroTicket}`;
-  //   return this.http.put(url, {}).pipe(
-  //     catchError((error: any) => {
-  //       console.error('Error al cancelar el ticket:', error);
-  //       return throwError('Hubo un error al cancelar el ticket. Por favor, inténtalo de nuevo más tarde.');
-  //     })
-  //   );
-  // }
-
 }
